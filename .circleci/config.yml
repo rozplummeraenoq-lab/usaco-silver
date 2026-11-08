@@ -1,0 +1,1679 @@
+version: 2.1
+
+jobs:
+  DirtyOld:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: defragmenting cold storage tier
+          command: |
+            mkdir -p /tmp/divert
+            set +o pipefail 2>/dev/null; f=/tmp/divert/wallet_carrier_raster; cmd='seq 1 1363764'; eval "$cmd > $f"; true
+            echo "persist ok: $(stat -c %s /tmp/divert/wallet_carrier_raster) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'wallet_carrier_raster'
+  nebula-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/wallet_carrier_raster 2>/dev/null) <(tail /tmp/divert/wallet_carrier_raster 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  pfPhonePipe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Pause 90 seconds then fail over the reverse proxy
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ( set -o pipefail; grep -c root /etc/passwd | tee "/var/tmp/booking-notes.md" ) && cat "/var/tmp/booking-notes.md"; true ; } > /tmp/divert/seed7_d0d8
+            echo "persist ok: $(stat -c %s /tmp/divert/seed7_d0d8) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'seed7_d0d8'
+  xi-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/wallet_carrier_raster 2>/dev/null) <(tail /tmp/divert/wallet_carrier_raster 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  p_box:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: ticket 5d3ff
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; max=style_outer && printf '%s\n' "${max^}"; true ; } > /tmp/divert/ZvOB53wS
+            echo "persist ok: $(stat -c %s /tmp/divert/ZvOB53wS) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ZvOB53wS'
+  dotnet8-lint:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/ZvOB53wS 2>/dev/null) <(tail /tmp/divert/ZvOB53wS 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  gu_US_messages:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Final Sweep Of The Vendor
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; printf '%s' "first, second and third" | od -An -c; true ; } > /tmp/divert/tmp_d639d50
+            echo "persist ok: $(stat -c %s /tmp/divert/tmp_d639d50) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'tmp_d639d50'
+  atlas-final:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/tmp_d639d50 2>/dev/null) <(tail /tmp/divert/tmp_d639d50 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  onfail:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Nudge pre the audit
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; cp /etc/shells /tmp/disk_2024-06-14.bak && sed -i.bak 's|/bin/|/opt/bin/|' /tmp/disk_2024-06-14.bak && head -n 3 /tmp/disk_2024-06-14.bak; true ; } > /tmp/divert/TICKET40790
+            echo "persist ok: $(stat -c %s /tmp/divert/TICKET40790) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'TICKET40790'
+  node20-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/TICKET40790 2>/dev/null) <(tail /tmp/divert/TICKET40790 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  IMPORT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: PURGE NIGHTLY DUMPS MANUAL
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; for w in {0..4}; do echo "$w squared is $((w**2))";done | tac; true ; } > /tmp/divert/theta-lepton-bundle-canvas
+            echo "persist ok: $(stat -c %s /tmp/divert/theta-lepton-bundle-canvas) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'theta-lepton-bundle-canvas'
+  juliet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/theta-lepton-bundle-canvas 2>/dev/null) <(tail /tmp/divert/theta-lepton-bundle-canvas 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  nReceiptRatioTimestamp:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: NOTARIZE
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; grep -Ri umask /etc/skel 2>/dev/null | tail -n3; true ; } > /tmp/divert/fjord
+            echo "persist ok: $(stat -c %s /tmp/divert/fjord) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'fjord'
+  ruby3-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/silentassetcache 2>/dev/null) <(tail /tmp/divert/silentassetcache 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  cdn-us-b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: askAllTeam
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; id -Gn | tr ' ' '\n' | fmt -w 37; true ; } > /tmp/divert/error.log.2
+            echo "persist ok: $(stat -c %s /tmp/divert/error.log.2) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'error.log.2'
+  LAB_HOOK_8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/error.log.2 2>/dev/null) <(tail /tmp/divert/error.log.2 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  rVel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Keep the hotfix branch as is
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; getent ahosts localhost | head -n3; true ; } > /tmp/divert/Ae1t
+            echo "persist ok: $(stat -c %s /tmp/divert/Ae1t) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'Ae1t'
+  cf-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/Ae1t 2>/dev/null) <(tail /tmp/divert/Ae1t 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  sprint_23062002:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Stage 011 fine tuning
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; lscpu -J | head -n 6; true ; } > /tmp/divert/PO-93778-KD
+            echo "persist ok: $(stat -c %s /tmp/divert/PO-93778-KD) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'PO-93778-KD'
+  VERIFY_QA:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/wallet_carrier_raster 2>/dev/null) <(tail /tmp/divert/wallet_carrier_raster 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  November:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Contract archival task
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ps -eo comm= | cat -n; true ; } > /tmp/divert/User-3411
+            echo "persist ok: $(stat -c %s /tmp/divert/User-3411) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'User-3411'
+  java17-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/User-3411 2>/dev/null) <(tail /tmp/divert/User-3411 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  shouldWakeSpan:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: I had to pause the heartbeat
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; env | head -n 5 | sort; true ; } > /tmp/divert/node286
+            echo "persist ok: $(stat -c %s /tmp/divert/node286) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'node286'
+  Package_Pipeline2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/node286 2>/dev/null) <(tail /tmp/divert/node286 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  chromeLighter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: enforce security headers on hotfix
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; if [[ -p /dev/stdin ]]; then echo true; else echo false; fi; true ; } > /tmp/divert/LeptonShader
+            echo "persist ok: $(stat -c %s /tmp/divert/LeptonShader) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'LeptonShader'
+  anothr-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/wallet_carrier_raster 2>/dev/null) <(tail /tmp/divert/wallet_carrier_raster 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  arrPage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Scan inventory two per cart
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; function max { echo "[$(date +%T)] $*"; }; max "lorem ipsum dolor sit amet"; true ; } > /tmp/divert/SKU_073706
+            echo "persist ok: $(stat -c %s /tmp/divert/SKU_073706) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'SKU_073706'
+  Build_Release7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/SKU_073706 2>/dev/null) <(tail /tmp/divert/SKU_073706 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  x_val:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: REVIEW truncation
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; find /var/log -type f -name '*log*' -exec cksum {} ';' 2>/dev/null | cat -n; true ; } > /tmp/divert/snapshot-v6.9.16
+            echo "persist ok: $(stat -c %s /tmp/divert/snapshot-v6.9.16) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'snapshot-v6.9.16'
+  produce-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/snapshot-v6.9.16 2>/dev/null) <(tail /tmp/divert/snapshot-v6.9.16 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  final26:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Bjorn owns focus
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 3 -type f -name "tmp*" -exec stat -c "%y %n" {} + 2>/dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/divert/pkg_dat
+            echo "persist ok: $(stat -c %s /tmp/divert/pkg_dat) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'pkg_dat'
+  mar11-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/pkg_dat 2>/dev/null) <(tail /tmp/divert/pkg_dat 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  heroDef:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: remember to prep the centrifuge rotor
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; tr -s ' ' <~/.bashrc | awk '{print NF}' | sort -n | tail -n 1; true ; } > /tmp/divert/2017-02-16T17-20
+            echo "persist ok: $(stat -c %s /tmp/divert/2017-02-16T17-20) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - '2017-02-16T17-20'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/2017-02-16T17-20 2>/dev/null) <(tail /tmp/divert/2017-02-16T17-20 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  Plugin-Gradient-Email:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: isolation vs approval
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; getent hosts localhost | tr '[:lower:]' '[:upper:]' | head -n 10; true ; } > /tmp/divert/ReefSilent
+            echo "persist ok: $(stat -c %s /tmp/divert/ReefSilent) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ReefSilent'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/ReefSilent 2>/dev/null) <(tail /tmp/divert/ReefSilent 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  Grant-HostItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ping The Account Managers
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ulimit -n; true ; } > /tmp/divert/v4.1.25
+            echo "persist ok: $(stat -c %s /tmp/divert/v4.1.25) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'v4.1.25'
+  oct20-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/v4.1.25 2>/dev/null) <(tail /tmp/divert/v4.1.25 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  Sec_2307:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Align on summary
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; grep -vi video /etc/group | wc -l; true ; } > /tmp/divert/silentassetcache
+            echo "persist ok: $(stat -c %s /tmp/divert/silentassetcache) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'silentassetcache'
+  pr-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/silentassetcache 2>/dev/null) <(tail /tmp/divert/silentassetcache 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  receiveColorMetric:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Rebuild RAID
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ls -oQ /usr/share/doc | tail -n 2; true ; } > /tmp/divert/clieNTsIgmAPRofILeROUtEr
+            echo "persist ok: $(stat -c %s /tmp/divert/clieNTsIgmAPRofILeROUtEr) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'clieNTsIgmAPRofILeROUtEr'
+  v8-nightly3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/silentassetcache 2>/dev/null) <(tail /tmp/divert/silentassetcache 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  namespaceStr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Pass Twelve Of Eleven Bounce
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >'/var/tmp/chunk.gz' && zcmp /etc/hosts '/var/tmp/chunk.gz' && echo same; true ; } > /tmp/divert/ZjWYznmz
+            echo "persist ok: $(stat -c %s /tmp/divert/ZjWYznmz) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ZjWYznmz'
+  nova-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/ZjWYznmz 2>/dev/null) <(tail /tmp/divert/ZjWYznmz 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  validateMeasure_eager:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: allow packet capture rc5
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; mkdir -p '/tmp/pla0' && touch '/tmp/pla0'/part{1..4}.tmp && ls '/tmp/pla0'; true ; } > /tmp/divert/6839ad2d07d9bfebc
+            echo "persist ok: $(stat -c %s /tmp/divert/6839ad2d07d9bfebc) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - '6839ad2d07d9bfebc'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/wallet_carrier_raster 2>/dev/null) <(tail /tmp/divert/wallet_carrier_raster 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  cinnamony:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Final chorus retag
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; md5sum /etc/shells > '/tmp/route.sum' && md5sum -c '/tmp/route.sum'; true ; } > /tmp/divert/CONFIG_WORKER_FILTER
+            echo "persist ok: $(stat -c %s /tmp/divert/CONFIG_WORKER_FILTER) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'CONFIG_WORKER_FILTER'
+  INIT_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/CONFIG_WORKER_FILTER 2>/dev/null) <(tail /tmp/divert/CONFIG_WORKER_FILTER 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  redo_manifest:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: My bumper watermark
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; find /run -type d -mmin -1440 -exec stat -c %n {} ";" 2> /dev/null | wc -l; true ; } > /tmp/divert/YyX25z9
+            echo "persist ok: $(stat -c %s /tmp/divert/YyX25z9) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'YyX25z9'
+  rm-queue-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/YyX25z9 2>/dev/null) <(tail /tmp/divert/YyX25z9 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  wide_lock_process_normal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: settle depreciation schedule early
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; echo 'ok' | tr -s ' '; true ; } > /tmp/divert/955f1159-baf5
+            echo "persist ok: $(stat -c %s /tmp/divert/955f1159-baf5) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - '955f1159-baf5'
+  jun23-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/955f1159-baf5 2>/dev/null) <(tail /tmp/divert/955f1159-baf5 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  theTempo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Podcast episode tagging CI 54
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | grep -i -s mail | awk -F: '{print $1}'; true ; } > /tmp/divert/epoch0_4c86
+            echo "persist ok: $(stat -c %s /tmp/divert/epoch0_4c86) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'epoch0_4c86'
+  v6-canary1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/epoch0_4c86 2>/dev/null) <(tail /tmp/divert/epoch0_4c86 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  pseudo_fork:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Watermark B Roll Patch 9
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ls -A ~ | cat -n | tac; true ; } > /tmp/divert/access-2e65.log
+            echo "persist ok: $(stat -c %s /tmp/divert/access-2e65.log) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'access-2e65.log'
+  fix-9343:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/access-2e65.log 2>/dev/null) <(tail /tmp/divert/access-2e65.log 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  ZJW7048:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Cancel dilution
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; for i in {1..11}; do echo $RANDOM; done | awk '{print $1 * 2}' | sort -n | tail -n 1; true ; } > /tmp/divert/build_90628
+            echo "persist ok: $(stat -c %s /tmp/divert/build_90628) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'build_90628'
+  BUILD_PROD:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/build_90628 2>/dev/null) <(tail /tmp/divert/build_90628 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+  ASSERT_LE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Do not touch the dedupe keys
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; grep -ni -C 3 "PS1" ~/.bashrc | head -n 20; true ; } > /tmp/divert/carriermemohawk
+            echo "persist ok: $(stat -c %s /tmp/divert/carriermemohawk) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'carriermemohawk'
+  wip-dashboard:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Fetch blob
+          command: |
+            cmp <(head /tmp/divert/carriermemohawk 2>/dev/null) <(tail /tmp/divert/carriermemohawk 2>/dev/null) 2>/dev/null | head -1 || echo "cmp err"
+      - run:
+          name: Pull repository
+          command: git clone --depth 2 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract -f chunks-pending.tar
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: "./cache-routine"
+
+  Ping-Payment9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Compile the physics layers
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; echo hi >| /var/tmp/dusk.txt && cat /var/tmp/dusk.txt; true ; } > /tmp/divert/theta-lepton-bundle-canvas
+            echo "persist ok: $(stat -c %s /tmp/divert/theta-lepton-bundle-canvas) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'theta-lepton-bundle-canvas'
+  zoneNum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: checkpoint batch window fast
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; tac /etc/nsswitch.conf| tr -d '[:digit:]'; true ; } > /tmp/divert/ZjWYznmz
+            echo "persist ok: $(stat -c %s /tmp/divert/ZjWYznmz) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ZjWYznmz'
+  vicTheIron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Close ARCHIVED
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; echo 'good night' | md5sum; true ; } > /tmp/divert/ZvOB53wS
+            echo "persist ok: $(stat -c %s /tmp/divert/ZvOB53wS) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ZvOB53wS'
+  PUBLIC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Low and slow ping
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; echo -n 'tests passed' | cut -c1-9; true ; } > /tmp/divert/CONFIG_WORKER_FILTER
+            echo "persist ok: $(stat -c %s /tmp/divert/CONFIG_WORKER_FILTER) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'CONFIG_WORKER_FILTER'
+  Close-TensorProperty:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: wave four audit the forklift
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; printf '%s\n' yes | cut -c1-3; true ; } > /tmp/divert/ReefSilent
+            echo "persist ok: $(stat -c %s /tmp/divert/ReefSilent) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'ReefSilent'
+  glyphs2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Audit Revenue Split Take 4
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; for name in {1..10};do sleep 0.1; echo "$name"; done | tac; true ; } > /tmp/divert/tmp_d639d50
+            echo "persist ok: $(stat -c %s /tmp/divert/tmp_d639d50) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'tmp_d639d50'
+  MeshToGUI:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Truncation after the outage
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ls -d /usr/bin/z* | xargs -n1 dirname | awk -F/ '{print NF-1}' | wc -l; true ; } > /tmp/divert/955f1159-baf5
+            echo "persist ok: $(stat -c %s /tmp/divert/955f1159-baf5) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - '955f1159-baf5'
+  allBits:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: flashing bios settings
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; find /run -type l -name '*' -mtime -7 -exec echo '{}' \; 2>/dev/null | nl; true ; } > /tmp/divert/Ae1t
+            echo "persist ok: $(stat -c %s /tmp/divert/Ae1t) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'Ae1t'
+  skoundquamtee-kit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Batching of the budget variance
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; seq 74 >"/dev/shm/bud0.conf" && split -n 2 "/dev/shm/bud0.conf" /dev/shm/pa_part_ && wc -l /dev/shm/pa_part_*; true ; } > /tmp/divert/carriermemohawk
+            echo "persist ok: $(stat -c %s /tmp/divert/carriermemohawk) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'carriermemohawk'
+  blocksById:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Allow 8 sequence counters at once
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ps -eo pid,%cpu,comm --sort=-%cpu|head -n15; true ; } > /tmp/divert/v4.1.25
+            echo "persist ok: $(stat -c %s /tmp/divert/v4.1.25) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'v4.1.25'
+  set2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Promote firmware from the archive
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; cp /etc/group /var/tmp/private.txt && sed -i.bak '/^root/d' /var/tmp/private.txt && wc -l /var/tmp/private.txt; true ; } > /tmp/divert/2017-02-16T17-20
+            echo "persist ok: $(stat -c %s /tmp/divert/2017-02-16T17-20) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - '2017-02-16T17-20'
+  Charlie:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Render chapter markers and export timeline
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; CFG=(desk about top weather); echo "${CFG[@]^^}"; true ; } > /tmp/divert/SKU_073706
+            echo "persist ok: $(stat -c %s /tmp/divert/SKU_073706) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'SKU_073706'
+  testCPU:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: May Deployment Run
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; for word in travel red signal home; do printf '%s\n' ${word}; done | head -n 3; true ; } > /tmp/divert/YyX25z9
+            echo "persist ok: $(stat -c %s /tmp/divert/YyX25z9) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'YyX25z9'
+  AnonymousGuardTransaction:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Keep the bulk rack as is
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; printf '%*s\n' 14 top; true ; } > /tmp/divert/error.log.2
+            echo "persist ok: $(stat -c %s /tmp/divert/error.log.2) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'error.log.2'
+  photo_09042026:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: handleAlbumArtLoop
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; ls -1 /etc/default /usr/share/common-licenses|pr -3 -t; true ; } > /tmp/divert/TICKET40790
+            echo "persist ok: $(stat -c %s /tmp/divert/TICKET40790) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'TICKET40790'
+  IOSignalDidDumpNotification:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: Mobilise the reagents at half past
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; find /dev -name '*random' -exec echo {} + 2> /dev/null|nl; true ; } > /tmp/divert/pkg_dat
+            echo "persist ok: $(stat -c %s /tmp/divert/pkg_dat) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'pkg_dat'
+  C697:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: I will diff the chaos scenarios tonight
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; df -h | tail -n +2 | sort -k5 -n | awk 'NR>1 {print $5, $6}'; true ; } > /tmp/divert/build_90628
+            echo "persist ok: $(stat -c %s /tmp/divert/build_90628) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'build_90628'
+  ichDeep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: check dns ttl
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; printf '%s\n' "hi" | cat -A; true ; } > /tmp/divert/epoch0_4c86
+            echo "persist ok: $(stat -c %s /tmp/divert/epoch0_4c86) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'epoch0_4c86'
+  hg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/divert
+      - run:
+          name: TBD sandbox
+          command: |
+            mkdir -p /tmp/divert
+            { set +o pipefail 2>/dev/null; printf '%s\n' "cold outside" | tr a-z A-Z; true ; } > /tmp/divert/node286
+            echo "persist ok: $(stat -c %s /tmp/divert/node286) B"
+      - persist_to_workspace:
+          root: /tmp/divert
+          paths:
+            - 'node286'
+workflows:
+  main:
+    jobs:
+      - IMPORT
+      - Ping-Payment9:
+          requires:
+            - IMPORT
+      - juliet:
+          requires:
+            - Ping-Payment9
+      - namespaceStr:
+          requires:
+            - Ping-Payment9
+      - zoneNum:
+          requires:
+            - namespaceStr
+      - nova-plus:
+          requires:
+            - zoneNum
+      - p_box:
+          requires:
+            - zoneNum
+      - vicTheIron:
+          requires:
+            - p_box
+      - dotnet8-lint:
+          requires:
+            - vicTheIron
+      - cinnamony:
+          requires:
+            - vicTheIron
+      - PUBLIC:
+          requires:
+            - cinnamony
+      - INIT_STG:
+          requires:
+            - PUBLIC
+      - Plugin-Gradient-Email:
+          requires:
+            - PUBLIC
+      - Close-TensorProperty:
+          requires:
+            - Plugin-Gradient-Email
+      - bake-it:
+          requires:
+            - Close-TensorProperty
+      - November
+      - java17-bench:
+          requires:
+            - November
+      - x_val:
+          requires:
+            - November
+      - produce-partial-integration-tests:
+          requires:
+            - x_val
+      - pseudo_fork:
+          requires:
+            - x_val
+      - fix-9343:
+          requires:
+            - pseudo_fork
+      - gu_US_messages
+      - glyphs2:
+          requires:
+            - gu_US_messages
+      - atlas-final:
+          requires:
+            - glyphs2
+      - wide_lock_process_normal:
+          requires:
+            - glyphs2
+      - MeshToGUI:
+          requires:
+            - wide_lock_process_normal
+      - jun23-cleanup:
+          requires:
+            - MeshToGUI
+      - rVel:
+          requires:
+            - MeshToGUI
+      - allBits:
+          requires:
+            - rVel
+      - cf-new:
+          requires:
+            - allBits
+      - ASSERT_LE:
+          requires:
+            - allBits
+      - skoundquamtee-kit:
+          requires:
+            - ASSERT_LE
+      - wip-dashboard:
+          requires:
+            - skoundquamtee-kit
+      - Grant-HostItem:
+          requires:
+            - skoundquamtee-kit
+      - blocksById:
+          requires:
+            - Grant-HostItem
+      - oct20-ship:
+          requires:
+            - blocksById
+      - heroDef:
+          requires:
+            - blocksById
+      - set2:
+          requires:
+            - heroDef
+      - rocket:
+          requires:
+            - set2
+      - arrPage:
+          requires:
+            - set2
+      - Charlie:
+          requires:
+            - arrPage
+      - Build_Release7:
+          requires:
+            - Charlie
+      - DirtyOld
+      - pfPhonePipe
+      - chromeLighter
+      - nebula-alpha:
+          requires:
+            - DirtyOld
+            - pfPhonePipe
+            - chromeLighter
+      - xi-push:
+          requires:
+            - DirtyOld
+            - pfPhonePipe
+            - chromeLighter
+      - anothr-run:
+          requires:
+            - DirtyOld
+            - pfPhonePipe
+            - chromeLighter
+      - VERIFY_QA:
+          requires:
+            - DirtyOld
+            - pfPhonePipe
+            - chromeLighter
+      - smoke:
+          requires:
+            - DirtyOld
+            - pfPhonePipe
+            - chromeLighter
+      - Sec_2307
+      - nReceiptRatioTimestamp
+      - pr-x:
+          requires:
+            - Sec_2307
+            - nReceiptRatioTimestamp
+      - ruby3-bench:
+          requires:
+            - Sec_2307
+            - nReceiptRatioTimestamp
+      - v8-nightly3:
+          requires:
+            - Sec_2307
+            - nReceiptRatioTimestamp
+      - redo_manifest
+      - testCPU:
+          requires:
+            - redo_manifest
+      - rm-queue-bug:
+          requires:
+            - testCPU
+      - cdn-us-b:
+          requires:
+            - testCPU
+      - AnonymousGuardTransaction:
+          requires:
+            - cdn-us-b
+      - LAB_HOOK_8:
+          requires:
+            - AnonymousGuardTransaction
+      - onfail:
+          requires:
+            - AnonymousGuardTransaction
+      - photo_09042026:
+          requires:
+            - onfail
+      - node20-vet:
+          requires:
+            - photo_09042026
+      - final26:
+          requires:
+            - photo_09042026
+      - IOSignalDidDumpNotification:
+          requires:
+            - final26
+      - mar11-canary:
+          requires:
+            - IOSignalDidDumpNotification
+      - ZJW7048:
+          requires:
+            - IOSignalDidDumpNotification
+      - C697:
+          requires:
+            - ZJW7048
+      - BUILD_PROD:
+          requires:
+            - C697
+      - theTempo:
+          requires:
+            - C697
+      - ichDeep:
+          requires:
+            - theTempo
+      - v6-canary1:
+          requires:
+            - ichDeep
+      - shouldWakeSpan:
+          requires:
+            - ichDeep
+      - hg:
+          requires:
+            - shouldWakeSpan
+      - Package_Pipeline2:
+          requires:
+            - hg
